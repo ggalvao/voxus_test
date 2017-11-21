@@ -1,0 +1,50 @@
+<html>
+    <head>
+      <title>All tasks</title>
+     <link rel="stylesheet" type="text/css" href="/static/style.css">
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js">
+     </script>
+    </head>
+    <body>
+      <div id="container">
+        Usuário logado: {{logged_user}}</br></br>
+        <div class="pagetitle">
+          <h1>All tasks</h1>
+        </div>
+        <div id="main">
+          <table>
+          {% for t in alltasks %} 
+          <tr><td><p data-editable data-id={{t._id}}>{{t.title}} </p></td><td><a href="/delete/{{t._id}}" onclick="return confirm('Tem certeza que quer apagar?')">Apagar</a></td>
+          </tr>
+          {% endfor %}
+          </table>
+        </div>
+      </div>
+      <form method="post" action="/new_task">
+        <label for="task_title">Name:</label>
+        <input type="text" name="task_title"><input type="submit" value="Criar">
+      </form>
+    </body>
+    <script>
+        $('body').on('click', '[data-editable]', function(){
+        
+        var $el = $(this);
+                    
+        var $input = $('<input/>').val( $el.text() );
+        $el.replaceWith( $input );
+        
+        var save = function(){
+          $.get( "/update/" + $el.attr('data-id') + "/" + $input.val(), function( data ) {
+            $el.attr('data-id') = data.new_id;
+            $( ".result" ).html( data );
+          });
+          var $p = $('<p data-editable />').text( $input.val() );
+          $input.replaceWith( $p );
+        };
+   
+        $input.one('blur', save).focus();
+        
+      });
+      </script>
+  
+  </html>
