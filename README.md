@@ -6,6 +6,7 @@ Uma instância local do MongoDB foi utilizada e deve estar funcionando para que 
 ## Importante
 Também é necessário criar um projeto no Google Cloud Console e também a geração do CLIENT_ID e CLIENT_SECRET para configuração do OAuth2.
 
+## Sobre o Tempo Utilizado
 O tempo total utilizado foi de 6h. Dessas 6h, pelo menos 2h30 foram perdidas até descobrir/reescrever tudo de Flask para webapp2 -- bugs com OAuth2 e na lib Flask_GoogleLogin.
 
 Do tempo líquido de desenvolvimento, pelo menos 2h foi perdida no front-end, que não é uma área que eu me considere apto a atuar em um bom nível.
