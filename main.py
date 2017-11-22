@@ -9,8 +9,8 @@ import os
 import webapp2
 import jinja2
 
-GOOGLE_LOGIN_CLIENT_ID = '4826155823-o675k2ap3eq4trhlahaa565fv80l92ab.apps.googleusercontent.com'
-GOOGLE_LOGIN_CLIENT_SECRET = 'npLKFVPp_pHfm1cRL9l68go0'
+GOOGLE_LOGIN_CLIENT_ID = 'CHANGE_ME'
+GOOGLE_LOGIN_CLIENT_SECRET = 'CHANGE_ME'
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
