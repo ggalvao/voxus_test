@@ -13,16 +13,51 @@
         </div>
         <div id="main">
           <table>
+            <tr>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Prioridade</th>
+              <th>Criador</th>
+              <th>Anexos</th>
+              <th></th>
+              <th></th>
+              <th>Status</th>
+            </tr>
           {% for t in alltasks %} 
-          <tr><td><p data-editable data-id={{t._id}}>{{t.title}} </p></td><td><a href="/delete/{{t._id}}" onclick="return confirm('Tem certeza que quer apagar?')">Apagar</a></td>
+          <tr>
+            <td><p data-editable data-id={{t._id}}>{{t.title}} </p></td>
+            <td><p>{{t.description}}</p></td>
+            <td><p>{{t.priority}}</p></td>
+            <td><p>{{t.author}}</p></td>
+            <td>{% for a in t.attachments%}<p>{{a.filename}}</p>{% endfor %}</td>
+            <td><form method="POST" enctype="multipart/form-data" name="attachment" action="/attachment/{{t._id}}"><input type="file" name="file"><input type="submit" value="Adicionar anexo"></form></td>
+            <td><a href="/delete/{{t._id}}" onclick="return confirm('Tem certeza que quer apagar?')">Apagar</a></td>
+            <td><select status-change name="status" data-id={{t._id}}>
+              <option value="0" {% if t.status == 0 %} selected{% endif %}>Aberta</option>
+              <option value="1" {% if t.status == 1 %} selected{% endif %}>Concluída</option>
+            </select></td>
           </tr>
           {% endfor %}
           </table>
         </div>
       </div>
+      <hr>
+      <h1>Nova tarefa</h1>
       <form method="post" action="/new_task">
-        <label for="task_title">Name:</label>
-        <input type="text" name="task_title"><input type="submit" value="Criar">
+        <label for="task_title">Name:</label>     
+        <input type="text" name="task_title">
+        <label for="task_description">Descrição:</label>     
+        <input type="text" name="task_description">
+        <label for="task_priority">Priority:</label>     
+        <select name="task_priority">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>            
+        </select>
+        <input type="hidden" name="author" value="{{logged_user}}">
+        <input type="submit" value="Criar">
       </form>
     </body>
     <script>
@@ -45,6 +80,10 @@
         $input.one('blur', save).focus();
         
       });
+      $('select[status-change]').on('change', function() {
+        var $el = $(this);
+        $.get( "/updatestatus/" + $el.attr('data-id') + "/" + $el.val(), function( data ) {
+          });
+      });
       </script>
-  
   </html>
